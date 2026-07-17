@@ -156,3 +156,7 @@ traffic-reports/
 # Firebase configuration
 firebase-applet-config.json
 database.json
+
+# Bun
+bun.lockb
+bun.lock
