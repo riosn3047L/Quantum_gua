@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuantumGuard | Post-Quantum Cryptography Readiness</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="tailwind-config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="shared.css" rel="stylesheet"/>
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<!-- Tailwind config loaded from shared tailwind-config.js -->
+<style>
+  .text-gradient { background: linear-gradient(135deg, #A8E8FF 0%, #00D4FF 50%, #D2BBFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .quantum-glow { box-shadow: 0 0 30px rgba(0,212,255,0.3), inset 0 0 30px rgba(0,212,255,0.05); }
+  .glass-card { background: rgba(39,53,76,0.55); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+  .hero-particle { position: absolute; border-radius: 50%; animation: float 6s ease-in-out infinite; }
+</style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-[#041329]/60 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,212,255,0.05)]">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-none">
+<a href="index.html" class="text-xl font-black tracking-tighter text-[#D6E3FF] flex items-center gap-2">
+<span class="material-symbols-outlined text-[#00D4FF]" style="font-variation-settings: 'FILL' 1;">security</span>
+                QuantumGuard
+            </a>
+<div class="hidden md:flex gap-8 font-['Inter'] tracking-tight font-medium text-sm">
+<a class="text-[#00D4FF] border-b-2 border-[#00D4FF] pb-1" href="index.html">Home</a>
+<a class="text-[#D6E3FF]/70 hover:text-[#D6E3FF] transition-colors" href="quick-assessment.html">Assessment</a>
+<a class="text-[#D6E3FF]/70 hover:text-[#D6E3FF] transition-colors" href="results.html">Results</a>
+<a class="text-[#D6E3FF]/70 hover:text-[#D6E3FF] transition-colors" href="compliance.html">Compliance</a>
+<a class="text-[#D6E3FF]/70 hover:text-[#D6E3FF] transition-colors" href="tools.html">Tools</a>
+<a class="text-[#D6E3FF]/70 hover:text-[#D6E3FF] transition-colors" href="leaderboard.html">Leaderboard</a>
+<a class="text-[#D6E3FF]/70 hover:text-[#D6E3FF] transition-colors" href="docs.html">Docs</a>
+</div>
+<div class="flex items-center gap-4">
+<a href="about.html" class="hidden md:inline-flex bg-primary-container text-on-primary font-bold px-6 py-2 rounded-lg transition-all duration-300 active:scale-95 shadow-[0_0_15px_rgba(0,212,255,0.4)]">
+                    About
+                </a>
+<button id="mobileMenuBtn" class="md:hidden p-2 hover:bg-[#27354C]/50 rounded-lg transition-all" aria-label="Open menu">
+<span class="material-symbols-outlined text-[#D6E3FF]">menu</span>
+</button>
+</div>
+</div>
+<div class="h-[1px] w-full bg-gradient-to-r from-transparent via-[#00D4FF]/20 to-transparent"></div>
+</nav>
+<!-- Mobile Menu Overlay -->
+<div id="mobileOverlay" class="mobile-menu-overlay"></div>
+<div id="mobileDrawer" class="mobile-menu-drawer">
+<div class="flex justify-between items-center mb-8">
+<span class="text-lg font-bold gradient-text">QuantumGuard</span>
+<button id="mobileCloseBtn" class="p-2 hover:bg-[#27354C]/50 rounded-lg"><span class="material-symbols-outlined">close</span></button>
+</div>
+<a href="index.html" class="active"><span class="material-symbols-outlined">home</span> Home</a>
+<a href="quick-assessment.html"><span class="material-symbols-outlined">quiz</span> Assessment</a>
+<a href="results.html"><span class="material-symbols-outlined">assessment</span> Results</a>
+<a href="compliance.html"><span class="material-symbols-outlined">verified</span> Compliance</a>
+<a href="tools.html"><span class="material-symbols-outlined">build</span> Tools</a>
+<a href="leaderboard.html"><span class="material-symbols-outlined">leaderboard</span> Leaderboard</a>
+<a href="docs.html"><span class="material-symbols-outlined">description</span> Docs</a>
+<a href="about.html"><span class="material-symbols-outlined">info</span> About</a>
+</div>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="relative min-h-[921px] flex flex-col items-center justify-center px-6 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-secondary-container/10 rounded-full blur-[120px]"></div>
+<div class="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-primary-container/5 rounded-full blur-[100px]"></div>
+</div>
+<div class="relative z-10 text-center max-w-5xl">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-highest border border-outline-variant/30 text-xs font-label uppercase tracking-widest text-primary mb-8">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+                    PSB Hackathon 2026 Edition
+                </div>
+<h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-6 font-headline leading-tight">
+<span class="text-on-surface">Quantum</span><span class="text-gradient">Guard</span>
+</h1>
+<p class="text-xl md:text-2xl text-on-surface-variant font-light mb-12 max-w-3xl mx-auto leading-relaxed">
+                    Post-Quantum Cryptography Readiness Assessment. 
+                    Prepare your enterprise for the <span class="text-primary font-medium italic">Y2Q</span> transition with our advanced diagnostic framework.
+                </p>
+<div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
+<a href="quick-assessment.html" class="group relative px-8 py-4 bg-primary-container text-on-primary font-bold text-lg rounded-xl quantum-glow transition-all hover:scale-105 active:scale-95 flex items-center gap-3">
+                        Start Quick Assessment
+                        <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">bolt</span>
+</a>
+<a href="comprehensive-assessment.html" class="px-8 py-4 glass-card border border-outline-variant/20 text-on-surface font-bold text-lg rounded-xl transition-all hover:bg-surface-container-highest active:scale-95">
+                        Start Comprehensive Assessment
+                    </a>
+</div>
+<div id="resumeBanner" class="hidden mb-12 p-4 rounded-xl bg-primary-container/10 border border-primary-container/20 text-center">
+<p class="text-sm text-on-surface mb-2">You have saved assessment progress.</p>
+<div class="flex gap-4 justify-center">
+<a href="quick-assessment.html" class="text-sm font-bold text-primary hover:underline">Resume Assessment</a>
+<button onclick="startFresh()" class="text-sm font-bold text-error hover:underline">Start Fresh</button>
+</div>
+</div>
+<!-- Quantum Threat Timeline -->
+<div class="w-full max-w-4xl mx-auto">
+<h3 class="text-sm font-label uppercase tracking-[0.3em] text-on-surface-variant mb-12">Quantum Threat Horizon (2024—2033+)</h3>
+<div class="relative py-12">
+<!-- Timeline Line -->
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-gradient-to-r from-primary/10 via-primary to-transparent -translate-y-1/2"></div>
+<div class="grid grid-cols-4 gap-4">
+<div class="relative flex flex-col items-center">
+<div class="w-4 h-4 rounded-full bg-primary mb-4 shadow-[0_0_12px_rgba(168,232,255,0.8)] z-10"></div>
+<span class="font-['JetBrains_Mono'] text-primary mb-2">2024</span>
+<p class="text-[10px] uppercase tracking-tighter text-on-surface-variant text-center max-w-[120px]">NIST FIPS PQC Standards Finalized</p>
+</div>
+<div class="relative flex flex-col items-center">
+<div class="w-4 h-4 rounded-full bg-primary/40 mb-4 border border-primary z-10"></div>
+<span class="font-['JetBrains_Mono'] text-on-surface mb-2">2026</span>
+<p class="text-[10px] uppercase tracking-tighter text-on-surface-variant text-center max-w-[120px]">CNSA 2.0 Transition Mandate Starts</p>
+</div>
+<div class="relative flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-secondary-container mb-3 border-2 border-primary animate-pulse z-10"></div>
+<span class="font-['JetBrains_Mono'] text-primary font-bold mb-2">2029</span>
+<p class="text-[10px] uppercase tracking-tighter text-secondary text-center font-bold max-w-[120px]">SNDL (Store Now, Decrypt Later) Peak</p>
+</div>
+<div class="relative flex flex-col items-center">
+<div class="w-4 h-4 rounded-full bg-error-container/20 border border-error mb-4 z-10"></div>
+<span class="font-['JetBrains_Mono'] text-error mb-2">2033+</span>
+<p class="text-[10px] uppercase tracking-tighter text-on-surface-variant text-center max-w-[120px]">Q-Day: RSA/ECC Cryptosystems Broken</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Feature Bento Grid -->
+<section class="py-32 px-6 max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+<div class="max-w-xl">
+<h2 class="text-4xl font-headline font-black mb-4 tracking-tight">The 4 Pillars of Readiness</h2>
+<p class="text-on-surface-variant">Our assessment evaluates your infrastructure across four critical dimensions defined by the CSNP QRAMM framework.</p>
+</div>
+<div class="flex gap-4">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-background bg-surface-container-high flex items-center justify-center text-[10px] font-bold">NIST</div>
+<div class="w-10 h-10 rounded-full border-2 border-background bg-surface-container-high flex items-center justify-center text-[10px] font-bold">ISO</div>
+<div class="w-10 h-10 rounded-full border-2 border-background bg-surface-container-high flex items-center justify-center text-[10px] font-bold">ETSI</div>
+</div>
+<span class="text-xs font-label uppercase text-on-surface-variant self-center">Framework Aligned</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="glass-card p-10 rounded-xl group hover:bg-surface-container-highest/80 transition-all duration-500 border border-outline-variant/10">
+<div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">pageview</span>
+</div>
+<h4 class="text-xl font-bold mb-4 leading-snug">Cryptographic Visibility &amp; Inventory (CVI)</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Map every certificate, algorithm, and key length across your entire infrastructure estate.</p>
+</div>
+<!-- Card 2 -->
+<div class="glass-card p-10 rounded-xl group hover:bg-surface-container-highest/80 transition-all duration-500 border border-outline-variant/10 md:mt-8">
+<div class="w-14 h-14 rounded-lg bg-secondary-container/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-3xl">account_balance</span>
+</div>
+<h4 class="text-xl font-bold mb-4 leading-snug">Strategic Governance &amp; Risk Management (SGRM)</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Align your quantum transition roadmap with regulatory mandates and corporate risk tolerance.</p>
+</div>
+<!-- Card 3 -->
+<div class="glass-card p-10 rounded-xl group hover:bg-surface-container-highest/80 transition-all duration-500 border border-outline-variant/10">
+<div class="w-14 h-14 rounded-lg bg-tertiary-container/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-3xl">shield</span>
+</div>
+<h4 class="text-xl font-bold mb-4 leading-snug">Data Protection Engineering (DPE)</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Evaluate data-at-rest and data-in-transit protection strategies against quantum decryption.</p>
+</div>
+<!-- Card 4 -->
+<div class="glass-card p-10 rounded-xl group hover:bg-surface-container-highest/80 transition-all duration-500 border border-outline-variant/10 md:mt-8">
+<div class="w-14 h-14 rounded-lg bg-primary-container/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary-container text-3xl">settings_input_component</span>
+</div>
+<h4 class="text-xl font-bold mb-4 leading-snug">Implementation &amp; Technical Readiness (ITR)</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Assess crypto-agility and the technical capacity to swap legacy primitives for PQC.</p>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="py-24 bg-surface-container-low relative overflow-hidden">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,212,255,0.05)_0%,transparent_70%)]"></div>
+<div class="max-w-7xl mx-auto px-6 relative z-10">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+<div class="flex flex-col items-center observe-animate">
+<span class="font-['JetBrains_Mono'] text-5xl font-black text-primary mb-2" data-count="120">0</span>
+<span class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Questions</span>
+</div>
+<div class="flex flex-col items-center observe-animate stagger-1">
+<span class="font-['JetBrains_Mono'] text-5xl font-black text-secondary mb-2" data-count="4">0</span>
+<span class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Dimensions</span>
+</div>
+<div class="flex flex-col items-center observe-animate stagger-2">
+<span class="font-['JetBrains_Mono'] text-5xl font-black text-tertiary-fixed-dim mb-2" data-count="12">0</span>
+<span class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Practices</span>
+</div>
+<div class="flex flex-col items-center observe-animate stagger-3">
+<span class="font-['JetBrains_Mono'] text-5xl font-black text-primary-container mb-2" data-count="4">0</span>
+<span class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Compliance Frameworks</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Tools & Open Source Section -->
+<section class="py-32 px-6 max-w-7xl mx-auto">
+<div class="flex flex-col items-center text-center mb-20">
+<h2 class="text-4xl font-headline font-black mb-4">Quantum Readiness Toolkit</h2>
+<p class="text-on-surface-variant max-w-2xl">Leverage our suite of open-source CLI tools to automate your cryptographic discovery phase.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+<!-- Tool 1 -->
+<div class="surface-container-highest p-8 rounded-xl border border-outline-variant/10 hover:border-primary/50 transition-colors">
+<div class="font-['JetBrains_Mono'] text-primary text-sm mb-4">$ quantuguard scan --env prod</div>
+<h5 class="text-lg font-bold mb-2">CryptoScan</h5>
+<p class="text-sm text-on-surface-variant mb-6">Deep inspection of binaries and source code to detect hardcoded legacy crypto primitives.</p>
+<div class="flex items-center gap-2 text-primary font-bold text-xs">
+<span class="material-symbols-outlined text-sm">terminal</span>
+                        GITHUB REPO
+                    </div>
+</div>
+<!-- Tool 2 -->
+<div class="surface-container-highest p-8 rounded-xl border border-outline-variant/10 hover:border-secondary/50 transition-colors">
+<div class="font-['JetBrains_Mono'] text-secondary text-sm mb-4">$ quantuguard tls --host banking.api</div>
+<h5 class="text-lg font-bold mb-2">TLS Analyzer</h5>
+<p class="text-sm text-on-surface-variant mb-6">Real-time analysis of handshake protocols to verify Hybrid Key Exchange readiness.</p>
+<div class="flex items-center gap-2 text-secondary font-bold text-xs">
+<span class="material-symbols-outlined text-sm">terminal</span>
+                        GITHUB REPO
+                    </div>
+</div>
+<!-- Tool 3 -->
+<div class="surface-container-highest p-8 rounded-xl border border-outline-variant/10 hover:border-tertiary/50 transition-colors">
+<div class="font-['JetBrains_Mono'] text-tertiary text-sm mb-4">$ quantuguard deps --pkg npm</div>
+<h5 class="text-lg font-bold mb-2">CryptoDeps</h5>
+<p class="text-sm text-on-surface-variant mb-6">Dependency graph analysis to identify vulnerable cryptographic libraries in your supply chain.</p>
+<div class="flex items-center gap-2 text-tertiary font-bold text-xs">
+<span class="material-symbols-outlined text-sm">terminal</span>
+                        GITHUB REPO
+                    </div>
+</div>
+</div>
+<div class="flex flex-col items-center gap-8">
+<a href="tools.html" class="bg-surface-container-high border-2 border-primary/30 text-primary font-bold px-10 py-4 rounded-xl hover:bg-primary hover:text-on-primary transition-all flex items-center gap-4">
+<span class="material-symbols-outlined">rocket_launch</span>
+                    Launch Scanner Tools
+                </a>
+<!-- Trust Badges -->
+<div class="flex flex-wrap justify-center gap-8 opacity-60">
+<div class="flex items-center gap-2 grayscale hover:grayscale-0 transition-all cursor-default">
+<span class="material-symbols-outlined text-primary">verified</span>
+<span class="font-label text-xs uppercase tracking-widest font-bold">NIST Aligned</span>
+</div>
+<div class="flex items-center gap-2 grayscale hover:grayscale-0 transition-all cursor-default">
+<span class="material-symbols-outlined text-primary">corporate_fare</span>
+<span class="font-label text-xs uppercase tracking-widest font-bold">Enterprise Ready</span>
+</div>
+<div class="flex items-center gap-2 grayscale hover:grayscale-0 transition-all cursor-default">
+<span class="material-symbols-outlined text-primary">code</span>
+<span class="font-label text-xs uppercase tracking-widest font-bold">Open Source</span>
+</div>
+<div class="flex items-center gap-2 grayscale hover:grayscale-0 transition-all cursor-default">
+<span class="material-symbols-outlined text-primary">description</span>
+<span class="font-label text-xs uppercase tracking-widest font-bold">MIT License</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="py-32 px-6">
+<div class="max-w-5xl mx-auto glass-card rounded-3xl p-12 md:p-20 text-center relative overflow-hidden">
+<div class="absolute -top-24 -left-24 w-64 h-64 bg-primary/20 rounded-full blur-[80px]"></div>
+<div class="absolute -bottom-24 -right-24 w-64 h-64 bg-secondary/20 rounded-full blur-[80px]"></div>
+<h2 class="text-4xl md:text-5xl font-black mb-8 leading-tight">Secure your legacy before the <br/><span class="text-gradient">quantum era</span> arrives.</h2>
+<p class="text-on-surface-variant text-lg mb-12 max-w-2xl mx-auto">Join the leading financial institutions using QuantumGuard to audit and upgrade their cryptographic defenses.</p>
+<div class="flex flex-wrap justify-center gap-6">
+<a href="quick-assessment.html" class="bg-primary-container text-on-primary font-bold px-10 py-5 rounded-xl text-lg shadow-[0_0_30px_rgba(0,212,255,0.3)] hover:scale-105 active:scale-95 transition-all">Start Free Assessment</a>
+<a href="about.html" class="bg-surface-container-highest/50 border border-outline-variant/30 text-on-surface font-bold px-10 py-5 rounded-xl text-lg hover:bg-surface-container-highest transition-all">Talk to a Cryptographer</a>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0D1C32] w-full py-12 border-t border-[#3C494E]/15">
+<div class="flex flex-col md:flex-row justify-between items-center px-10 gap-6">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="text-[#D6E3FF] font-bold text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[#00D4FF]">security</span>
+                    QuantumGuard
+                </div>
+<p class="text-[#D6E3FF]/50 text-[10px] font-['JetBrains_Mono'] uppercase tracking-widest">Built by IravoVoid for PSB Hackathon 2026.</p>
+</div>
+<div class="flex gap-8 font-['JetBrains_Mono'] text-xs uppercase tracking-widest">
+<a class="text-[#D6E3FF]/50 hover:text-[#A8E8FF] transition-colors" href="docs.html">CSNP QRAMM Framework</a>
+<a class="text-[#D6E3FF]/50 hover:text-[#A8E8FF] transition-colors" href="#">GitHub</a>
+<a class="text-[#D6E3FF]/50 hover:text-[#A8E8FF] transition-colors" href="#">Privacy Policy</a>
+<a class="text-[#D6E3FF]/50 hover:text-[#A8E8FF] transition-colors" href="#">Security Standards</a>
+</div>
+<div class="text-[#D6E3FF]/50 text-[10px] font-['JetBrains_Mono'] uppercase tracking-widest">
+                MIT License. PSB Hackathon 2026.
+            </div>
+</div>
+</footer>
+<!-- Scroll to Top Button -->
+<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
+
+<!-- Toast Container -->
+<div id="toastContainer" class="toast-container"></div>
+
+<script>
+// Check for saved assessment progress
+(function() {
+  try {
+    var quickAnswers = JSON.parse(localStorage.getItem('qg_quick_answers') || '{}');
+    var compAnswers = JSON.parse(localStorage.getItem('qg_comprehensive_answers') || '{}');
+    if (Object.keys(quickAnswers).length > 0 || Object.keys(compAnswers).length > 0) {
+      document.getElementById('resumeBanner').classList.remove('hidden');
+    }
+  } catch(e) {}
+})();
+
+function startFresh() {
+  Object.keys(localStorage).filter(function(k) { return k.startsWith('qg_'); }).forEach(function(k) { localStorage.removeItem(k); });
+  window.location.href = 'quick-assessment.html';
+}
+
+// Mobile menu toggle
+(function() {
+  const btn = document.getElementById('mobileMenuBtn');
+  const overlay = document.getElementById('mobileOverlay');
+  const drawer = document.getElementById('mobileDrawer');
+  const closeBtn = document.getElementById('mobileCloseBtn');
+  function openMenu() { overlay.classList.add('active'); drawer.classList.add('active'); }
+  function closeMenu() { overlay.classList.remove('active'); drawer.classList.remove('active'); }
+  if (btn) btn.addEventListener('click', openMenu);
+  if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+  if (overlay) overlay.addEventListener('click', closeMenu);
+})();
+
+// Scroll-to-top button
+(function() {
+  const btn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', function() {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  });
+  btn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+})();
+
+// Intersection Observer scroll animations
+(function() {
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.observe-animate').forEach(function(el) { observer.observe(el); });
+})();
+
+// Animated counter for stats section
+(function() {
+  const counters = document.querySelectorAll('[data-count]');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && !entry.target.dataset.counted) {
+        entry.target.dataset.counted = 'true';
+        const target = parseInt(entry.target.dataset.count);
+        let current = 0;
+        const step = Math.max(1, Math.floor(target / 40));
+        const timer = setInterval(function() {
+          current += step;
+          if (current >= target) { current = target; clearInterval(timer); }
+          entry.target.textContent = current;
+        }, 30);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(function(c) { observer.observe(c); });
+})();
+</script>
+<script src="ui-utils.js"></script>
+</body></html>

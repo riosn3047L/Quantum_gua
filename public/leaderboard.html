@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>QuantumGuard | Global Readiness Leaderboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="tailwind-config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700" rel="stylesheet"/>
+    <link href="shared.css" rel="stylesheet"/>
+    <style>
+        .domain-row { cursor: pointer; transition: all 0.2s; }
+        .domain-row:hover { background: rgba(0,212,255,0.05); }
+        .subdomain-row { transition: all 0.2s; }
+        .subdomain-row:hover { background: rgba(255,255,255,0.03); }
+        .vuln-ok { color: #10B981; }
+        .vuln-bad { color: #F43F5E; }
+        .detail-modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 100; align-items: center; justify-content: center; }
+        .detail-modal { background: #041329; border: 1px solid rgba(60,73,78,0.4); border-radius: 1rem; width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .accordion-content { overflow: hidden; transition: max-height 0.3s ease-in-out; max-height: 0; }
+        .accordion-content.open { max-height: 2000px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-sans selection:bg-primary/30 selection:text-primary">
+    <nav class="sticky top-0 z-50 bg-[#041329]/80 backdrop-blur-md border-b border-outline-variant/20">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2 group">
+                <span class="material-symbols-outlined text-primary text-2xl group-hover:rotate-180 transition-transform duration-700">security</span>
+                <span class="font-headline font-bold tracking-tight text-lg">QuantumGuard</span>
+            </a>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="tools.html" class="text-sm font-bold text-on-surface-variant hover:text-primary transition-colors">TOOLS</a>
+                <a href="leaderboard.html" class="text-sm font-bold text-primary transition-colors">LEADERBOARD</a>
+                <a href="compliance.html" class="text-sm font-bold text-on-surface-variant hover:text-primary transition-colors">COMPLIANCE</a>
+                <a href="docs.html" class="text-sm font-bold text-on-surface-variant hover:text-primary transition-colors">DOCS</a>
+            </div>
+            <a href="tools.html" class="bg-primary/10 text-primary border border-primary/20 px-4 py-1.5 rounded-full text-xs font-bold hover:bg-primary hover:text-on-primary transition-all">SCAN NOW</a>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 relative">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-black font-headline tracking-tight mb-2">Global Readiness</h1>
+                <p class="text-on-surface-variant text-sm max-w-2xl">A comprehensive index of domains and their subdomains assessed for quantum vulnerability.</p>
+            </div>
+            <div class="flex items-center gap-4 w-full md:w-auto">
+                <div class="relative w-full md:w-64">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50">search</span>
+                    <input type="text" id="searchInput" placeholder="Search domains..." class="w-full bg-surface-container-high border border-outline-variant/20 rounded-lg pl-10 pr-4 py-2 text-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all text-on-surface">
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-panel rounded-2xl overflow-hidden border border-outline-variant/20">
+            <div class="bg-surface-container-highest/30 p-4 border-b border-outline-variant/20 grid grid-cols-12 gap-4 text-xs font-bold tracking-widest uppercase text-on-surface-variant/70">
+                <div class="col-span-6 md:col-span-5">Domain</div>
+                <div class="col-span-3 md:col-span-3 text-center">Maturity</div>
+                <div class="col-span-3 md:col-span-2 text-right">Score</div>
+                <div class="hidden md:block col-span-2 text-right">Actions</div>
+            </div>
+            <div id="leaderboardContainer" class="divide-y divide-outline-variant/10">
+                <div class="p-8 text-center text-on-surface-variant/50 font-mono text-sm">Loading domains...</div>
+            </div>
+        </div>
+    </main>
+
+    <div class="detail-modal-backdrop" id="detailModal" onclick="if(event.target===this)closeDetailModal()">
+        <div class="detail-modal" id="detailModalContent">
+            <!-- Filled by JS -->
+        </div>
+    </div>
+
+    <script>
+        const categories = [
+            { id: 'core',          label: 'Quantum Secure',      range: [90, 100], color: '#10B981', icon: 'shield_with_heart' },
+            { id: 'pqc',           label: 'PQC Transitioning',   range: [70, 89],  color: '#00D4FF', icon: 'verified_user' },
+            { id: 'transitioning', label: 'Classic Secure',      range: [50, 69],  color: '#D2BBFF', icon: 'sync_alt' },
+            { id: 'legacy',        label: 'Legacy / Vulnerable', range: [0, 49],   color: '#F59E0B', icon: 'warning' }
+        ];
+
+        let allDomains = [];
+        let groupedDomains = [];
+
+        function getCategory(score) {
+            return categories.find(c => score >= c.range[0] && score <= c.range[1]) || categories[3];
+        }
+
+        function getRootDomain(domain) {
+            const parts = domain.split('.');
+            if (parts.length <= 2) return domain;
+            if (['co', 'com', 'org', 'net', 'edu', 'gov'].includes(parts[parts.length-2]) && parts.length > 2) {
+                return parts.slice(-3).join('.');
+            }
+            return parts.slice(-2).join('.');
+        }
+
+        async function fetchLeaderboard() {
+            try {
+                const res = await fetch('/api/leaderboard');
+                if (res.ok) {
+                    allDomains = await res.json();
+                    processDomains();
+                    renderLeaderboard();
+                }
+            } catch (e) {
+                console.error("Failed to fetch leaderboard", e);
+            }
+        }
+
+        function processDomains() {
+            const groups = {};
+            allDomains.forEach(d => {
+                const root = getRootDomain(d.domain);
+                if (!groups[root]) groups[root] = { root, subdomains: [], maxScore: -1, minScore: 101 };
+                groups[root].subdomains.push(d);
+                if (d.score > groups[root].maxScore) groups[root].maxScore = d.score;
+                if (d.score < groups[root].minScore) groups[root].minScore = d.score;
+            });
+            
+            groupedDomains = Object.values(groups).sort((a,b) => b.maxScore - a.maxScore);
+        }
+
+        function renderLeaderboard(filter = '') {
+            const container = document.getElementById('leaderboardContainer');
+            container.innerHTML = '';
+            
+            const filtered = groupedDomains.filter(g => 
+                g.root.toLowerCase().includes(filter.toLowerCase()) || 
+                g.subdomains.some(s => s.domain.toLowerCase().includes(filter.toLowerCase()))
+            );
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="p-8 text-center text-on-surface-variant/50 font-mono text-sm">No domains found.</div>';
+                return;
+            }
+
+            filtered.forEach(group => {
+                const cat = getCategory(group.maxScore);
+                const hasSubs = group.subdomains.length > 1 || group.subdomains[0].domain !== group.root;
+                const rootItem = group.subdomains.find(s => s.domain === group.root) || group.subdomains[0];
+                
+                const groupHtml = `
+                    <div class="domain-group">
+                        <div class="domain-row p-4 grid grid-cols-12 gap-4 items-center" onclick="toggleGroup('${group.root}')">
+                            <div class="col-span-6 md:col-span-5 flex items-center gap-3">
+                                <span class="material-symbols-outlined text-outline text-lg transition-transform" id="icon-${group.root}">${hasSubs ? 'chevron_right' : 'public'}</span>
+                                <span class="font-mono font-bold text-sm truncate">${group.root}</span>
+                                ${hasSubs ? `<span class="bg-surface-container-high px-2 py-0.5 rounded text-[10px] text-on-surface-variant hidden sm:inline-block">${group.subdomains.length} assets</span>` : ''}
+                            </div>
+                            <div class="col-span-3 md:col-span-3 text-center">
+                                <span class="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider" style="background:${cat.color}15;color:${cat.color};border:1px solid ${cat.color}30">
+                                    <span class="material-symbols-outlined text-[12px]">${cat.icon}</span> ${cat.label}
+                                </span>
+                            </div>
+                            <div class="col-span-3 md:col-span-2 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <div class="w-12 h-1.5 bg-surface-container-highest rounded-full overflow-hidden hidden sm:block">
+                                        <div class="h-full rounded-full" style="width:${group.maxScore}%;background:${cat.color}"></div>
+                                    </div>
+                                    <span class="font-mono font-black text-sm" style="color:${cat.color}">${group.maxScore}</span>
+                                </div>
+                            </div>
+                            <div class="hidden md:block col-span-2 text-right">
+                                <button onclick="event.stopPropagation(); openDetailModal(findDomainData('${rootItem.domain}'))" class="px-3 py-1 bg-surface-container-highest hover:bg-primary/20 text-on-surface-variant hover:text-primary rounded text-xs font-bold transition-colors">Report</button>
+                            </div>
+                        </div>
+                        
+                        ${hasSubs ? `
+                        <div id="subs-${group.root}" class="accordion-content bg-surface-container-lowest/50 border-t border-outline-variant/10">
+                            ${group.subdomains.sort((a,b) => b.score - a.score).map(sub => {
+                                const subCat = getCategory(sub.score);
+                                return `
+                                <div class="subdomain-row p-3 pl-12 grid grid-cols-12 gap-4 items-center border-b border-outline-variant/5 last:border-0">
+                                    <div class="col-span-6 md:col-span-5 flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-[14px] text-outline/50">subdirectory_arrow_right</span>
+                                        <span class="font-mono text-xs text-on-surface-variant/80 truncate">${sub.domain}</span>
+                                    </div>
+                                    <div class="col-span-3 md:col-span-3 text-center">
+                                        <span class="text-[9px] font-bold uppercase" style="color:${subCat.color}">${subCat.label}</span>
+                                    </div>
+                                    <div class="col-span-3 md:col-span-2 text-right">
+                                        <span class="font-mono font-bold text-xs" style="color:${subCat.color}">${sub.score}</span>
+                                    </div>
+                                    <div class="hidden md:block col-span-2 text-right">
+                                        <button onclick="openDetailModal(findDomainData('${sub.domain}'))" class="text-[10px] text-primary/70 hover:text-primary uppercase font-bold tracking-wide">View</button>
+                                    </div>
+                                </div>
+                                `
+                            }).join('')}
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', groupHtml);
+            });
+        }
+
+        window.toggleGroup = function(root) {
+            const content = document.getElementById(`subs-${root}`);
+            const icon = document.getElementById(`icon-${root}`);
+            if (content) {
+                content.classList.toggle('open');
+                icon.style.transform = content.classList.contains('open') ? 'rotate(90deg)' : 'rotate(0deg)';
+            } else {
+                // If it doesn't have subdomains, just open the report
+                const item = groupedDomains.find(g => g.root === root).subdomains[0];
+                openDetailModal(item);
+            }
+        };
+
+        window.findDomainData = function(domain) {
+            return allDomains.find(d => d.domain === domain);
+        };
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            renderLeaderboard(e.target.value);
+        });
+
+        // Detail modal rendering
+        window.openDetailModal = function(d) {
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('detailModalContent');
+            if (!d || !d.report) return;
+            
+            const r = d.report;
+            const cert = r.certificate_info && r.certificate_info.length > 0 ? r.certificate_info[0] : null;
+            const vulns = r.vulnerabilities || {};
+            const cat = getCategory(d.score);
+            
+            const protoRows = Object.entries(r.protocol_support || {}).map(([key, data]) => {
+                const name = key.replace(/_/g, '.').toUpperCase();
+                const deprecated = ['SSL.2.0', 'SSL.3.0', 'TLS.1.0', 'TLS.1.1'].includes(name);
+                return [name, data, deprecated];
+            });
+
+            content.innerHTML = `
+                <div class="p-6 border-b border-outline-variant/20 flex justify-between items-center bg-[#061936]">
+                    <div>
+                        <h2 class="text-xl font-headline font-black flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">public</span> ${d.domain}
+                        </h2>
+                        <p class="text-xs text-on-surface-variant font-mono mt-1">Scanned: ${new Date(r.timestamp).toLocaleString()}</p>
+                    </div>
+                    <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-error/20 hover:text-error transition-colors">
+                        <span class="material-symbols-outlined text-sm">close</span>
+                    </button>
+                </div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-1 space-y-4">
+                        <div class="p-6 rounded-xl border border-outline-variant/10 text-center" style="background: linear-gradient(145deg, rgba(4,19,41,0.8), rgba(10,25,50,0.9)); box-shadow: 0 10px 30px -10px ${cat.color}20;">
+                            <div class="inline-flex w-16 h-16 items-center justify-center rounded-full mb-3" style="background:${cat.color}15; color:${cat.color}">
+                                <span class="material-symbols-outlined text-3xl">${cat.icon}</span>
+                            </div>
+                            <div class="text-5xl font-black font-mono tracking-tighter mb-1" style="color:${cat.color}">${d.score}</div>
+                            <div class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">${cat.label}</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-surface-container-highest/30 border border-outline-variant/10">
+                            <div class="text-[10px] uppercase font-bold text-on-surface-variant/70 mb-2">Network Info</div>
+                            <div class="font-mono text-xs mb-1"><span class="text-on-surface-variant">IP:</span> ${r.ip_address || '—'}</div>
+                            <div class="font-mono text-xs"><span class="text-on-surface-variant">Port:</span> ${r.port || 443}</div>
+                            <div class="font-mono text-xs mt-1"><span class="text-on-surface-variant">Time:</span> ${r.scan_duration ? r.scan_duration + 's' : '—'}</div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 space-y-6">
+                        <div>
+                            <h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3 border-b border-outline-variant/10 pb-2">Protocol Support</h3>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                ${protoRows.map(([name, data, deprecated]) => {
+                                    const supported = data?.supported || false;
+                                    const isDanger = supported && deprecated;
+                                    const isGood = supported && !deprecated;
+                                    return `
+                                        <div class="p-2 rounded border ${isDanger ? 'border-red-500/20 bg-red-500/5' : isGood ? 'border-green-500/20 bg-green-500/5' : 'border-outline-variant/10 bg-surface-container-lowest'} flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-sm ${isDanger ? 'text-red-400' : isGood ? 'text-green-400' : 'text-outline/30'}">${isDanger ? 'error' : isGood ? 'check_circle' : 'remove_circle_outline'}</span>
+                                            <div>
+                                                <div class="text-[10px] font-bold font-mono ${isDanger ? 'text-red-400' : isGood ? 'text-green-400' : 'text-outline/50'}">${name}</div>
+                                                <div class="text-[8px] font-mono text-on-surface-variant/60">${supported ? (data.cipher_suites?.length + ' ciphers') : 'Disabled'}</div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                        
+                        ${cert ? `
+                        <div>
+                            <h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3 border-b border-outline-variant/10 pb-2">Certificate Details</h3>
+                            <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-[11px] font-mono bg-surface-container-lowest/50 p-4 rounded border border-outline-variant/10">
+                                <div class="text-on-surface-variant/60">Subject</div><div class="text-on-surface truncate">${cert.subject || '—'}</div>
+                                <div class="text-on-surface-variant/60">Issuer</div><div class="text-on-surface truncate">${cert.issuer || '—'}</div>
+                                <div class="text-on-surface-variant/60">Key Type</div><div>${cert.key_type || '—'} (${cert.key_size || '—'}-bit)</div>
+                                <div class="text-on-surface-variant/60">Signature</div><div>${cert.signature_algorithm || '—'}</div>
+                                <div class="text-on-surface-variant/60">Valid Until</div><div class="${new Date(cert.not_after) < new Date() ? 'text-error font-bold' : ''}">${cert.not_after?.slice(0, 16) || '—'}</div>
+                            </div>
+                        </div>` : ''}
+                        
+                        ${Object.keys(vulns).length > 0 ? `
+                        <div>
+                            <h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3 border-b border-outline-variant/10 pb-2">Vulnerabilities</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                ${Object.entries(vulns).map(([name, data]) => {
+                                    if (!data) return '';
+                                    const isVuln = data.vulnerable || data.client_renegotiation_vulnerable;
+                                    return `
+                                        <div class="p-2 rounded border border-outline-variant/10 flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-sm ${isVuln ? 'text-red-400' : 'text-green-400'}">${isVuln ? 'gpp_bad' : 'gpp_good'}</span>
+                                            <span class="text-[10px] font-mono flex-1 capitalize">${name.replace(/_/g, ' ')}</span>
+                                            <span class="text-[9px] font-bold ${isVuln ? 'text-red-400' : 'text-green-400'}">${isVuln ? 'VULN' : 'SAFE'}</span>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>` : ''}
+                    </div>
+                </div>
+            `;
+            modal.style.display = 'flex';
+        };
+
+        window.closeDetailModal = function() {
+            document.getElementById('detailModal').style.display = 'none';
+        };
+
+        fetchLeaderboard();
+        setInterval(fetchLeaderboard, 10000); // refresh every 10s
+    </script>
+</body>
+</html>

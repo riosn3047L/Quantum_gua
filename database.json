@@ -1,0 +1,616 @@
+{
+  "leaderboard": {
+    "youtube.com": {
+      "domain": "youtube.com",
+      "score": 85,
+      "maturity_level": "PQC Transitioning",
+      "timestamp": "2026-07-17T14:27:16.776Z",
+      "report": {
+        "status": "completed",
+        "hostname": "youtube.com",
+        "port": 443,
+        "timestamp": "2026-07-17T14:27:16.776Z",
+        "quantum_score": 85,
+        "connectivity": "ok",
+        "ip_address": "youtube.com",
+        "scan_duration": 5.4,
+        "protocol_support": {
+          "ssl_2_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "ssl_3_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_1": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_2": {
+            "supported": true,
+            "cipher_suites": [
+              {
+                "name": "ECDHE-RSA-AES256-GCM-SHA384",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-ECDSA-AES256-GCM-SHA384",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-RSA-AES128-GCM-SHA256",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-ECDSA-AES128-GCM-SHA256",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-RSA-CHACHA20-POLY1305",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-ECDSA-CHACHA20-POLY1305",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "AES256-GCM-SHA384",
+                "key_size": 128,
+                "key_exchange": "RSA"
+              },
+              {
+                "name": "AES128-GCM-SHA256",
+                "key_size": 128,
+                "key_exchange": "RSA"
+              },
+              {
+                "name": "ECDHE-RSA-AES256-SHA",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-RSA-AES128-SHA",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "AES256-SHA",
+                "key_size": 128,
+                "key_exchange": "RSA"
+              },
+              {
+                "name": "AES128-SHA",
+                "key_size": 128,
+                "key_exchange": "RSA"
+              }
+            ]
+          },
+          "tls_1_3": {
+            "supported": true,
+            "cipher_suites": [
+              {
+                "name": "TLS_AES_256_GCM_SHA384",
+                "key_size": 256,
+                "key_exchange": "RSA"
+              }
+            ]
+          }
+        },
+        "certificate_info": [
+          {
+            "subject": "CN=*.google.com",
+            "issuer": "C=US, O=Google Trust Services, CN=WE2",
+            "key_type": "EC",
+            "key_size": 520,
+            "signature_algorithm": "unknown",
+            "not_before": "Jun 29 08:37:35 2026 GMT",
+            "not_after": "Sep 21 08:37:34 2026 GMT",
+            "san_dns_names": [
+              "*.google.com",
+              "*.appengine.google.com",
+              "*.bdn.dev",
+              "*.origin-test.bdn.dev",
+              "*.cloud.google.com",
+              "*.crowdsource.google.com",
+              "*.datacompute.google.com",
+              "*.google.ca",
+              "*.google.cl",
+              "*.google.co.in",
+              "*.google.co.jp",
+              "*.google.co.uk",
+              "*.google.com.ar",
+              "*.google.com.au",
+              "*.google.com.br",
+              "*.google.com.co",
+              "*.google.com.mx",
+              "*.google.com.tr",
+              "*.google.com.vn",
+              "*.google.de",
+              "*.google.es",
+              "*.google.fr",
+              "*.google.hu",
+              "*.google.it",
+              "*.google.nl",
+              "*.google.pl",
+              "*.google.pt",
+              "*.gemini.cloud.google.com",
+              "*.gstatic.com",
+              "*.metric.gstatic.com",
+              "*.gvt1.com",
+              "*.gcpcdn.gvt1.com",
+              "*.gvt2.com",
+              "*.gcp.gvt2.com",
+              "*.url.google.com",
+              "*.youtube-nocookie.com",
+              "*.ytimg.com",
+              "ai.android",
+              "android.com",
+              "*.android.com",
+              "*.flash.android.com",
+              "g.co",
+              "*.g.co",
+              "goo.gl",
+              "www.goo.gl",
+              "google-analytics.com",
+              "*.google-analytics.com",
+              "google.com",
+              "googlecommerce.com",
+              "*.googlecommerce.com",
+              "urchin.com",
+              "*.urchin.com",
+              "youtu.be",
+              "youtube.com",
+              "*.youtube.com",
+              "music.youtube.com",
+              "*.music.youtube.com",
+              "youtubeeducation.com",
+              "*.youtubeeducation.com",
+              "youtubekids.com",
+              "*.youtubekids.com",
+              "yt.be",
+              "*.yt.be",
+              "android.clients.google.com",
+              "*.aistudio.google.com"
+            ],
+            "ocsp_stapling": false,
+            "ocsp_must_staple": false
+          }
+        ],
+        "vulnerabilities": {
+          "heartbleed": {
+            "vulnerable": false
+          },
+          "robot": {
+            "vulnerable": false
+          },
+          "renegotiation": {
+            "client_renegotiation_vulnerable": false
+          },
+          "downgrade_attack": {
+            "vulnerable": false
+          },
+          "ccs_injection": {
+            "vulnerable": false
+          },
+          "weak_ciphers": {
+            "vulnerable": false
+          }
+        },
+        "elliptic_curves": {},
+        "recommendations": [],
+        "errors": []
+      }
+    },
+    "accountlinking-pa-clients6.youtube.com": {
+      "domain": "accountlinking-pa-clients6.youtube.com",
+      "score": 85,
+      "maturity_level": "PQC Transitioning",
+      "timestamp": "2026-07-17T14:27:29.979Z",
+      "report": {
+        "status": "completed",
+        "hostname": "accountlinking-pa-clients6.youtube.com",
+        "port": 443,
+        "timestamp": "2026-07-17T14:27:29.979Z",
+        "quantum_score": 85,
+        "connectivity": "ok",
+        "ip_address": "accountlinking-pa-clients6.youtube.com",
+        "scan_duration": 5.4,
+        "protocol_support": {
+          "ssl_2_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "ssl_3_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_1": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_2": {
+            "supported": true,
+            "cipher_suites": [
+              {
+                "name": "ECDHE-RSA-AES256-GCM-SHA384",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-ECDSA-AES256-GCM-SHA384",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-RSA-AES128-GCM-SHA256",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-ECDSA-AES128-GCM-SHA256",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-RSA-CHACHA20-POLY1305",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-ECDSA-CHACHA20-POLY1305",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "AES256-GCM-SHA384",
+                "key_size": 128,
+                "key_exchange": "RSA"
+              },
+              {
+                "name": "AES128-GCM-SHA256",
+                "key_size": 128,
+                "key_exchange": "RSA"
+              },
+              {
+                "name": "ECDHE-RSA-AES256-SHA",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "ECDHE-RSA-AES128-SHA",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              },
+              {
+                "name": "AES256-SHA",
+                "key_size": 128,
+                "key_exchange": "RSA"
+              },
+              {
+                "name": "AES128-SHA",
+                "key_size": 128,
+                "key_exchange": "RSA"
+              }
+            ]
+          },
+          "tls_1_3": {
+            "supported": true,
+            "cipher_suites": [
+              {
+                "name": "TLS_AES_256_GCM_SHA384",
+                "key_size": 256,
+                "key_exchange": "RSA"
+              }
+            ]
+          }
+        },
+        "certificate_info": [
+          {
+            "subject": "CN=*.google.com",
+            "issuer": "C=US, O=Google Trust Services, CN=WE2",
+            "key_type": "EC",
+            "key_size": 520,
+            "signature_algorithm": "unknown",
+            "not_before": "Jun 29 08:37:35 2026 GMT",
+            "not_after": "Sep 21 08:37:34 2026 GMT",
+            "san_dns_names": [
+              "*.google.com",
+              "*.appengine.google.com",
+              "*.bdn.dev",
+              "*.origin-test.bdn.dev",
+              "*.cloud.google.com",
+              "*.crowdsource.google.com",
+              "*.datacompute.google.com",
+              "*.google.ca",
+              "*.google.cl",
+              "*.google.co.in",
+              "*.google.co.jp",
+              "*.google.co.uk",
+              "*.google.com.ar",
+              "*.google.com.au",
+              "*.google.com.br",
+              "*.google.com.co",
+              "*.google.com.mx",
+              "*.google.com.tr",
+              "*.google.com.vn",
+              "*.google.de",
+              "*.google.es",
+              "*.google.fr",
+              "*.google.hu",
+              "*.google.it",
+              "*.google.nl",
+              "*.google.pl",
+              "*.google.pt",
+              "*.gemini.cloud.google.com",
+              "*.gstatic.com",
+              "*.metric.gstatic.com",
+              "*.gvt1.com",
+              "*.gcpcdn.gvt1.com",
+              "*.gvt2.com",
+              "*.gcp.gvt2.com",
+              "*.url.google.com",
+              "*.youtube-nocookie.com",
+              "*.ytimg.com",
+              "ai.android",
+              "android.com",
+              "*.android.com",
+              "*.flash.android.com",
+              "g.co",
+              "*.g.co",
+              "goo.gl",
+              "www.goo.gl",
+              "google-analytics.com",
+              "*.google-analytics.com",
+              "google.com",
+              "googlecommerce.com",
+              "*.googlecommerce.com",
+              "urchin.com",
+              "*.urchin.com",
+              "youtu.be",
+              "youtube.com",
+              "*.youtube.com",
+              "music.youtube.com",
+              "*.music.youtube.com",
+              "youtubeeducation.com",
+              "*.youtubeeducation.com",
+              "youtubekids.com",
+              "*.youtubekids.com",
+              "yt.be",
+              "*.yt.be",
+              "android.clients.google.com",
+              "*.aistudio.google.com"
+            ],
+            "ocsp_stapling": false,
+            "ocsp_must_staple": false
+          }
+        ],
+        "vulnerabilities": {
+          "heartbleed": {
+            "vulnerable": false
+          },
+          "robot": {
+            "vulnerable": false
+          },
+          "renegotiation": {
+            "client_renegotiation_vulnerable": false
+          },
+          "downgrade_attack": {
+            "vulnerable": false
+          },
+          "ccs_injection": {
+            "vulnerable": false
+          },
+          "weak_ciphers": {
+            "vulnerable": false
+          }
+        },
+        "elliptic_curves": {},
+        "recommendations": [],
+        "errors": []
+      }
+    },
+    "example.com": {
+      "domain": "example.com",
+      "score": 85,
+      "maturity_level": "PQC Transitioning",
+      "timestamp": "2026-07-17T14:30:45.256Z",
+      "report": {
+        "status": "completed",
+        "hostname": "example.com",
+        "port": 443,
+        "timestamp": "2026-07-17T14:30:45.256Z",
+        "quantum_score": 85,
+        "connectivity": "ok",
+        "ip_address": "example.com",
+        "scan_duration": 2.1,
+        "protocol_support": {
+          "ssl_2_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "ssl_3_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_1": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_2": {
+            "supported": true,
+            "cipher_suites": [
+              {
+                "name": "ECDHE-ECDSA-AES128-GCM-SHA256",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              }
+            ]
+          },
+          "tls_1_3": {
+            "supported": true,
+            "cipher_suites": [
+              {
+                "name": "TLS_AES_256_GCM_SHA384",
+                "key_size": 256,
+                "key_exchange": "RSA"
+              }
+            ]
+          }
+        },
+        "certificate_info": [
+          {
+            "subject": "CN=example.com",
+            "issuer": "C=US, O=SSL Corporation, CN=Cloudflare TLS Issuing ECC CA 3",
+            "key_type": "EC",
+            "key_size": 520,
+            "signature_algorithm": "unknown",
+            "not_before": "May 31 21:39:12 2026 GMT",
+            "not_after": "Aug 29 21:41:26 2026 GMT",
+            "san_dns_names": [
+              "example.com",
+              "*.example.com"
+            ],
+            "ocsp_stapling": false,
+            "ocsp_must_staple": false
+          }
+        ],
+        "vulnerabilities": {
+          "heartbleed": {
+            "vulnerable": false
+          },
+          "robot": {
+            "vulnerable": false
+          },
+          "renegotiation": {
+            "client_renegotiation_vulnerable": false
+          },
+          "downgrade_attack": {
+            "vulnerable": false
+          },
+          "ccs_injection": {
+            "vulnerable": false
+          },
+          "weak_ciphers": {
+            "vulnerable": false
+          }
+        },
+        "elliptic_curves": {},
+        "recommendations": [],
+        "errors": []
+      }
+    },
+    "www.example.com": {
+      "domain": "www.example.com",
+      "score": 85,
+      "maturity_level": "PQC Transitioning",
+      "timestamp": "2026-07-17T14:30:45.258Z",
+      "report": {
+        "status": "completed",
+        "hostname": "www.example.com",
+        "port": 443,
+        "timestamp": "2026-07-17T14:30:45.258Z",
+        "quantum_score": 85,
+        "connectivity": "ok",
+        "ip_address": "www.example.com",
+        "scan_duration": 2.1,
+        "protocol_support": {
+          "ssl_2_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "ssl_3_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_0": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_1": {
+            "supported": false,
+            "cipher_suites": []
+          },
+          "tls_1_2": {
+            "supported": true,
+            "cipher_suites": [
+              {
+                "name": "ECDHE-ECDSA-AES128-GCM-SHA256",
+                "key_size": 128,
+                "key_exchange": "ECDH"
+              }
+            ]
+          },
+          "tls_1_3": {
+            "supported": true,
+            "cipher_suites": [
+              {
+                "name": "TLS_AES_256_GCM_SHA384",
+                "key_size": 256,
+                "key_exchange": "RSA"
+              }
+            ]
+          }
+        },
+        "certificate_info": [
+          {
+            "subject": "CN=example.com",
+            "issuer": "C=US, O=SSL Corporation, CN=Cloudflare TLS Issuing ECC CA 3",
+            "key_type": "EC",
+            "key_size": 520,
+            "signature_algorithm": "unknown",
+            "not_before": "May 31 21:39:12 2026 GMT",
+            "not_after": "Aug 29 21:41:26 2026 GMT",
+            "san_dns_names": [
+              "example.com",
+              "*.example.com"
+            ],
+            "ocsp_stapling": false,
+            "ocsp_must_staple": false
+          }
+        ],
+        "vulnerabilities": {
+          "heartbleed": {
+            "vulnerable": false
+          },
+          "robot": {
+            "vulnerable": false
+          },
+          "renegotiation": {
+            "client_renegotiation_vulnerable": false
+          },
+          "downgrade_attack": {
+            "vulnerable": false
+          },
+          "ccs_injection": {
+            "vulnerable": false
+          },
+          "weak_ciphers": {
+            "vulnerable": false
+          }
+        },
+        "elliptic_curves": {},
+        "recommendations": [],
+        "errors": []
+      }
+    }
+  }
+}
