@@ -153,3 +153,6 @@ traffic-snapshots/
 *_traffic.json
 TRAFFIC_REPORT.md
 traffic-reports/
+# Firebase configuration
+firebase-applet-config.json
+database.json
