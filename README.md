@@ -40,8 +40,8 @@ flowchart TD
         DB[(Firebase / Database)]
     end
 
-    ClientSide <==>|HTTP / REST API| ApplicationSide
-    ApplicationSide <==>|Read / Write| ServerSide
+    ClientSide <-->|HTTP / REST API| ApplicationSide
+    ApplicationSide <-->|Read / Write| ServerSide
 ```
 
 - **Presentation Tier**: HTML5, Tailwind CSS, Vanilla JS. (Client-side UI)

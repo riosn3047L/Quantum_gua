@@ -42,17 +42,17 @@ flowchart TD
     end
 
     %% Connections
-    Logic <==>|HTTP / REST| API
-    AIProxy <==>|Encrypted API Call| Gemini
-    TLS ==>|Network Handshake| Target
-    API <==> FileSystem
-    API <==> Firebase
+    Logic <-->|HTTP / REST| API
+    AIProxy <-->|Encrypted API Call| Gemini
+    TLS -->|Network Handshake| Target
+    API <--> FileSystem
+    API <--> Firebase
 
     %% Apply Styles
-    class Tier1 client;
-    class Tier2 server;
-    class Tier3 data;
-    class External external;
+    class UI,Logic,ScannerClient,State client;
+    class API,TLS,AIProxy,CBOM server;
+    class FileSystem,Firebase data;
+    class Gemini,Target external;
 ```
 
 ---

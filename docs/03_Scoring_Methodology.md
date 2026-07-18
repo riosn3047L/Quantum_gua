@@ -24,7 +24,9 @@ Responses to each control are assigned a mathematical weight ranging from 1 to 4
 QuantumGuard computes the score for each Dimension based on the organization's responses.
 
 **Score Calculation Formula**:
-$$ Dimension\_Score = \frac{\sum (Assessed\_Control\_Scores)}{\sum (Maximum\_Possible\_Scores)} \times 4.0 $$
+```text
+Dimension Score = (Sum of Assessed Control Scores / Sum of Maximum Possible Scores) * 4.0
+```
 
 *(The engine scales the final dimension score perfectly to the 1.0 - 4.0 index).*
 
