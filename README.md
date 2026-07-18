@@ -27,9 +27,9 @@ QuantumGuard employs a highly modular, decoupled 3-Tier Architecture designed fo
 > **Read more:** [Detailed System Architecture](docs/01_System_Architecture.md)
 
 ## System Requirements
-- **CPU**: Minimum 2 vCPUs (2.0 GHz+)
-- **RAM**: 4 GB (8 GB Recommended)
-- **Storage**: 20 GB SSD
+- **CPU**: Minimum 1 vCPU (1.0 GHz+)
+- **RAM**: 512 MB (1 GB+ Recommended)
+- **Storage**: 500 MB SSD
 - **OS**: Ubuntu 24.04 LTS or Windows Server
 
 > **Read more:** [Detailed System Requirements](docs/02_System_Requirements.md)

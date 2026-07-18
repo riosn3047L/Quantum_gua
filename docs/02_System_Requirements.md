@@ -7,12 +7,12 @@ This document outlines the detailed hardware, software, and network prerequisite
 ## 2.1 Hardware Specifications (Application & Data Tiers)
 To ensure stable execution during concurrent cryptographic scanning (TLS handshakes) and real-time AI processing, the following hardware specifications are recommended for the server hosting the Node.js backend.
 
-| Component | Minimum Requirement | Recommended (Enterprise / Production) | Justification |
+| Component | Minimum Requirement | Recommended (Production) | Justification |
 | :--- | :--- | :--- | :--- |
-| **CPU** | 2 vCPUs (2.0 GHz) | 4+ vCPUs (2.5 GHz+) | TLS scanning and concurrent API proxying require multi-threading capabilities. A minimum of 2 vCPUs ensures the V8 engine doesn't lock up during heavy cryptographic parsing. |
-| **RAM** | 4 GB | 8 GB+ | Provides a safe memory buffer for the Node.js V8 engine heap, the AI chatbot proxy streaming, and memory-intensive external scanning tools. |
-| **Storage** | 20 GB SSD | 50 GB NVMe SSD | Ensures sufficient IOPS and headroom for OS dependencies, `node_modules`, log files, and potential historical CBOM report generation. |
-| **Network** | 10 Mbps Broadband | 1 Gigabit Ethernet | Fast, stable outbound connections are strictly required for the server to perform accurate, low-latency TLS scans against target infrastructure. |
+| **CPU** | 1 vCPU (1.0 GHz+) | 2 vCPUs | The Node.js Express server and built-in `tls` module are highly efficient. Single-core is sufficient for basic usage; dual-core is recommended for concurrent requests. |
+| **RAM** | 512 MB | 1 GB+ | Node.js has low memory overhead. The application does not rely on heavy external Python scanners or local databases, allowing it to run smoothly in constrained environments. |
+| **Storage** | 500 MB SSD | 1 GB SSD | Requires minimal space for the OS, source code, and `node_modules`. All heavy data storage is handled client-side via `localStorage`. |
+| **Network** | 5 Mbps Broadband | 100 Mbps+ | Standard internet connection for outbound API calls to Google Gemini and TLS handshakes. |
 
 ---
 
@@ -24,7 +24,7 @@ The backend Application Tier is platform-agnostic but is officially supported an
 | Component | Requirement | Version / Details |
 | :--- | :--- | :--- |
 | **Operating System** | Linux / Windows | **Ubuntu 24.04 LTS** (Recommended), Debian 12, or Windows Server 2022. |
-| **Core Runtime** | Node.js | **v18.x LTS or v20.x LTS**. Required for Express.js and modern ES modules. |
+| **Core Runtime** | Node.js | **v18.x LTS or v20.x LTS**. Required for Express.js and the native `tls` module. |
 | **Package Manager** | npm, yarn, or pnpm | **npm v9.x or higher** for dependency resolution. |
 | **Process Manager** | pm2 (Optional but rec.) | Recommended for keeping the Node.js application running in the background and managing restarts on failure in production. |
 
