@@ -37,11 +37,12 @@ flowchart TD
 
     subgraph ServerSide [Server Side / Data Tier]
         FileSystem[Server File System]
-        DB[(Firebase / Database)]
+        DB[("Firebase / Database")]
     end
 
-    ClientSide <-->|HTTP / REST API| ApplicationSide
-    ApplicationSide <-->|Read / Write| ServerSide
+    JS <-->|HTTP / REST API| API
+    API <-->|Read / Write| FileSystem
+    API <-->|Read / Write| DB
 ```
 
 - **Presentation Tier**: HTML5, Tailwind CSS, Vanilla JS. (Client-side UI)

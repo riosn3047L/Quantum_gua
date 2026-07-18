@@ -33,7 +33,7 @@ flowchart TD
 
     subgraph Tier3 [Server Side / DB]
         FileSystem[Server File System]
-        Firebase[(Firebase CDN / Database)]
+        Firebase[("Firebase CDN / Database")]
     end
 
     subgraph External [External Services]
