@@ -99,10 +99,41 @@ The Data Tier is responsible for the persistent storage of application assets, h
 
 ---
 
-## 1.3 System Data Flow & Interaction
-1.  **Initialization**: The user accesses the platform (e.g., via `https://social-482013.web.app`). The Application Tier (or Firebase CDN) serves the Presentation Tier (HTML/JS/CSS).
-2.  **Client-Side Execution**: The user conducts a maturity assessment. Data is actively written and read from the Data Tier's local manifestation (`localStorage`).
-3.  **Active Scanning**: The user requests a TLS scan. The Presentation Tier dispatches an asynchronous `fetch()` request to the Application Tier's Express endpoints (`/api/tls-scan`).
-4.  **Backend Processing**: The Application Tier executes network-level commands against the target domain, processes the raw cryptographic data, and formats a JSON response.
-5.  **AI Augmentation**: If the user queries the AI Advisor, the Application Tier securely authenticates with Google Cloud, retrieves the Gemini response, and streams it back.
-6.  **Visualization**: The Presentation Tier ingests the JSON responses and dynamically updates the DOM, rendering interactive charts and compliance mappings.
+## 1.3 Detailed Workflow, Data Flow, and Conversions
+
+This section breaks down the step-by-step execution and data conversion processes for the platform's core features, mapping how data moves between the Presentation, Application, and Server Tiers.
+
+### 1.3.1 The Assessment Lifecycle & Scoring Conversion
+1. **User Input Phase (Client Side)**: The user interacts with the Presentation Tier (HTML/JS), answering maturity questions via radio buttons (mapped to numerical values 1-4).
+2. **State Storage (Data Tier)**: The Vanilla JS logic serializes the active form data into a JSON string and saves it to the local Data Tier (`localStorage`). This ensures persistence without requiring a backend database round-trip.
+3. **Scoring Engine Conversion**:
+   - The JS logic retrieves and parses the raw JSON object.
+   - It iterates through the answers, grouping them by the 4 core dimensions (CVI, SGRM, DPE, ITR).
+   - It applies the mathematical weighting formula (sum of scores / max possible score * 4.0).
+   - The numerical output is converted into a qualitative "Maturity Tier" string (e.g., a score of 2.3 converts to "Tier 2 - Developing").
+4. **Visualization**: The resulting metrics are passed into Chart.js objects, converting numerical arrays into graphical radar and bar charts rendered on the DOM.
+
+### 1.3.2 TLS Subdomain Scan & Protocol Conversion
+1. **Request Dispatch**: The user enters a target URL. The client-side JS constructs a JSON payload and dispatches an asynchronous `POST` request to the Application Tier (`/api/tls-scan`).
+2. **Network Handshake (Application Side)**: 
+   - The Node.js Express server receives the request.
+   - It utilizes the native Node.js `tls` module to initiate raw TCP/TLS handshakes against the target external domain.
+   - It iterates through specific protocol versions (TLS 1.0, 1.1, 1.2, 1.3) and extracts the raw X.509 certificates and negotiated cipher suites.
+3. **Vulnerability Conversion**:
+   - The backend takes the raw cryptographic certificate data (buffer streams) and converts it into structured, human-readable JSON (Subject, Issuer, Expiry).
+   - It evaluates the key exchange algorithms against a hardcoded list of PQC indicators (e.g., scanning for "kyber" or "dilithium" strings).
+   - A numerical "Quantum Score" is mathematically derived based on the presence of weak ciphers (e.g., RC4, DES) and the absence of PQC key exchanges.
+4. **Response & Rendering**: The finalized JSON object is sent back to the Presentation Tier, where DOM manipulation converts the JSON array into an interactive HTML table.
+
+### 1.3.3 AI Advisor Context Conversion
+1. **Context Aggregation (Client Side)**: When the user asks a cybersecurity question, the client JS aggregates their current assessment scores and the latest TLS scan results into a unified, minimized context string.
+2. **Proxy Submission**: The client sends the user's prompt alongside the context string to the Application Tier (`/api/chat`).
+3. **Gemini API Conversion (Application Side)**: 
+   - The Node.js server acts as a secure proxy. It injects the `GEMINI_API_KEY` (loaded from `.env`), converting the standard HTTP request into an authenticated stream via the Google GenAI SDK.
+   - The server truncates the context if it exceeds token limits (e.g., capping at 8000 characters) to prevent API rejection.
+4. **Response Streaming**: The Application Tier receives a chunked data stream from Gemini. It pipes this stream directly back to the client as plain text via the `res.write()` stream. The client receives the stream and converts it to HTML/Markdown on the fly for dynamic typing effects.
+
+### 1.3.4 Cryptographic Bill of Materials (CBOM) Generation
+1. **Data Unification**: The CBOM generator acts as a conversion engine. It reads the raw assessment data (from `localStorage`) and the structured network scan data (from the Application Tier's Express API responses).
+2. **Format Conversion**: It maps these disparate data structures into a standardized JSON CBOM schema, categorizing assets into hardware, software, and network keys.
+3. **Export Process**: The Presentation Tier utilizes JavaScript `Blob` objects to convert the JSON memory structure into a downloadable `.json` file, effectively moving data from volatile browser memory to the user's local file system.
