@@ -3,10 +3,10 @@ A platform for quantum readiness assurance, vulnerability scanning, and complian
 
 ## 📑 Table of Contents
 - [✨ Key Features](#-key-features)
-- [🛠️ Technology Stack](#️-technology-stack)
+- [🏗️ 3-Tier Architecture](#️-3-tier-architecture)
+- [🛠️ Recommended Specifications](#️-recommended-specifications)
 - [🚀 Getting Started (Local Setup)](#-getting-started-local-setup)
 - [🧠 Scoring Methodology](#-scoring-methodology)
-- [🏗️ Architecture](#️-architecture)
 - [📁 Repository Structure](#-repository-structure)
 - [🛡️ Security & Privacy](#️-security--privacy)
 
@@ -17,31 +17,43 @@ A platform for quantum readiness assurance, vulnerability scanning, and complian
 4. **Results & Compliance Dashboard**: NIST PQC, CMMC 2.0, FedRAMP, and FISMA mappings.
 5. **AI Chat Advisor**: Integrated Gemini AI for cybersecurity advice.
 
-## 🛠️ Technology Stack
-**Frontend**
-* HTML5 / CSS3 / Vanilla JavaScript (ES6+)
-* Tailwind CSS (via CDN)
-* Client-side `localStorage` persistence
+## 🏗️ 3-Tier Architecture
+QuantumGuard is designed with a modern, decoupled 3-Tier Architecture to ensure scalability and security for enterprise and banking environments.
 
-**Backend**
-* Node.js & Express.js
-* Google Gemini SDK (@google/genai)
-* TLS node capabilities
+```text
+┌─────────────────────────────────────────────────────────┐
+│                    3-Tier Architecture                  │
+│                                                         │
+│  [ Presentation Tier ]  -- Client-side UI               │
+│  HTML5, Tailwind CSS, Vanilla JS. Runs in the browser.  │
+│                                                         │
+│          ↕ HTTP Requests                                │
+│                                                         │
+│  [ Application Tier ]   -- Node.js & Express.js         │
+│  Handles business logic, TLS scanning, Gemini AI proxy. │
+│                                                         │
+│          ↕ Data Read/Write                              │
+│                                                         │
+│  [ Data Tier ]          -- Storage & Persistence        │
+│  localStorage (Client), File System (Server),           │
+│  Optional Firebase DB.                                  │
+└─────────────────────────────────────────────────────────┘
+```
 
-**Deployment**
-* Node.js Server (Port 3000)
-* Firebase Hosting (Optional)
+## 🛠️ Recommended Specifications
+For the PNB Evaluation, the following specifications present a stable, enterprise-ready environment:
+
+- **CPU**: Minimum 2 vCPUs (2.0 GHz or higher) to handle concurrent scanning threads without locking up.
+- **RAM**: 4 GB (provides a safe buffer for the V8 JavaScript engine, the AI chatbot, and the scanning tools).
+- **Storage**: 20 GB SSD (ensures plenty of headroom for OS dependencies, `node_modules`, and historical scan reports).
+- **Operating System**: Ubuntu 24.04 LTS or Windows Server.
+- **Dependencies**: 
+  - Node.js (v18+)
+  - Package Manager: `npm`, `yarn`, or `pnpm`
+  - Python 3.10+ (if legacy crypto analysis is utilized)
 
 ## 🚀 Getting Started (Local Setup)
 QuantumGuard is a full-stack Node.js application.
-
-### Prerequisites
-* Node.js (v18+)
-* npm or bun
-* Google Gemini API Key
-
-### Ubuntu 20.04 VM Support
-Yes, QuantumGuard can absolutely run on an Ubuntu 20.04 VM. You just need to ensure Node.js is installed on your Ubuntu VM. You can install Node.js using NVM or NodeSource on Ubuntu 20.04.
 
 ### 1. Installation
 ```bash
@@ -68,35 +80,18 @@ The server will start on `http://localhost:3000`. This single command serves bot
 ## 🧠 Scoring Methodology
 Evaluates readiness across **4 Dimensions**: CVI, SGRM, DPE, and ITR. Uses weakest-link principle mapping to a 5-level maturity tier.
 
-## 🏗️ Architecture
-```text
-┌─────────────────────────────────────────────────────────┐
-│                    Node.js & Express                    │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │              Frontend (public/)                  │   │
-│  │  index.html │ assessment │ results │ compliance  │   │
-│  └──────────────────────┬───────────────────────────┘   │
-│                         │ HTTP                          │
-│  ┌──────────────────────▼───────────────────────────┐   │
-│  │              Express Backend (src/server.js)     │   │
-│  │  /api/health │ /api/tls-scan │ /api/chat         │   │
-│  └──────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────┘
-```
-
 ## 📁 Repository Structure
 ```text
 QuantumGuard/
 ├── public/                # Vanilla JS + Tailwind HTML App
 │   ├── index.html         # Landing page
-│   ├── quick-assessment.html
 │   ├── tools.html         # Scanners
 │   └── ...
 ├── src/                   # Node.js Backend API
 │   ├── server.js          # Express app
 │   ├── scanner.js         # TLS Scanning logic
 │   └── ...
-├── knowledge_base/        # Documentation
+├── docs/        # Documentation
 ├── package.json
 └── README.md
 ```
