@@ -11,7 +11,7 @@ flowchart TD
     classDef data fill:#e8f5e9,stroke:#388e3c,stroke-width:2px;
     classDef external fill:#fff3e0,stroke:#f57c00,stroke-width:2px,stroke-dasharray: 5 5;
 
-    subgraph Tier1 [Presentation Tier: Client Browser]
+    subgraph Tier1 [Client Side / Presentation Tier]
         UI[HTML5 / Tailwind CSS]
         Logic[Vanilla JS ES6+]
         ScannerClient[In-Browser Scanner Regex]
@@ -21,7 +21,7 @@ flowchart TD
         Logic <--> State
     end
 
-    subgraph Tier2 [Application Tier: Node.js / Express]
+    subgraph Tier2 [Application Side / Logic Tier]
         API[Express REST API]
         TLS[TLS Subdomain Scanner]
         AIProxy[Gemini AI Proxy]
@@ -31,9 +31,9 @@ flowchart TD
         API <--> CBOM
     end
 
-    subgraph Tier3 [Data Tier]
+    subgraph Tier3 [Server Side / DB]
         FileSystem[Server File System]
-        Firebase[(Firebase CDN / DB)]
+        Firebase[(Firebase CDN / Database)]
     end
 
     subgraph External [External Services]
