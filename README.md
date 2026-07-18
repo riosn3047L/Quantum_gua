@@ -1,56 +1,56 @@
 # QuantumGuard
 A platform for quantum readiness assurance, vulnerability scanning, and compliance maturity.
 
-🔴 **Live Preview:** [https://social-482013.web.app](https://social-482013.web.app)
+Live Preview: [https://social-482013.web.app](https://social-482013.web.app)
 
-## 📑 Table of Contents
-- [✨ Key Features](#-key-features)
-- [🏗️ 3-Tier Architecture](#️-3-tier-architecture)
-- [🛠️ System Requirements](#️-system-requirements)
-- [🚀 Installation & Deployment](#-installation--deployment)
-- [🧠 Scoring Methodology](#-scoring-methodology)
-- [📁 Documentation Hub](#-documentation-hub)
+## Table of Contents
+- [Key Features](#key-features)
+- [3-Tier Architecture](#3-tier-architecture)
+- [System Requirements](#system-requirements)
+- [Installation & Deployment](#installation--deployment)
+- [Scoring Methodology](#scoring-methodology)
+- [Documentation Hub](#documentation-hub)
 
-## ✨ Key Features
+## Key Features
 1. **Maturity Assessment Engine**: Quick (12 questions) and Comprehensive (120 questions) assessments.
 2. **Quantum Cryptography Scanners**: TLS Scanner, CryptoScan, and CryptoDeps for vulnerability analysis.
 3. **CBOM Generator**: Generate Cryptographic Bills of Materials.
 4. **Results & Compliance Dashboard**: NIST PQC, CMMC 2.0, FedRAMP, and FISMA mappings.
 5. **AI Chat Advisor**: Integrated Gemini AI for cybersecurity advice.
 
-## 🏗️ 3-Tier Architecture
+## 3-Tier Architecture
 QuantumGuard employs a highly modular, decoupled 3-Tier Architecture designed for enterprise scalability and security:
 - **Presentation Tier**: HTML5, Tailwind CSS, Vanilla JS. (Client-side UI)
 - **Application Tier**: Node.js & Express.js. (Business logic, TLS scanning, AI proxy)
 - **Data Tier**: localStorage (Client), File System/Firebase (Server/Storage).
 
-> 📖 **Read more:** [Detailed System Architecture](docs/01_System_Architecture.md)
+> **Read more:** [Detailed System Architecture](docs/01_System_Architecture.md)
 
-## 🛠️ System Requirements
+## System Requirements
 - **CPU**: Minimum 2 vCPUs (2.0 GHz+)
 - **RAM**: 4 GB (8 GB Recommended)
 - **Storage**: 20 GB SSD
 - **OS**: Ubuntu 24.04 LTS or Windows Server
 
-> 📖 **Read more:** [Detailed System Requirements](docs/02_System_Requirements.md)
+> **Read more:** [Detailed System Requirements](docs/02_System_Requirements.md)
 
-## 🚀 Installation & Deployment
+## Installation & Deployment
 QuantumGuard runs as a full-stack Node.js application. 
 ```bash
 npm install
 npm run start
 ```
-> 📖 **Read more:** [Detailed Installation & Deployment Guide](docs/05_Deployment_Guide.md)
+> **Read more:** [Detailed Installation & Deployment Guide](docs/05_Deployment_Guide.md)
 
-## 🧠 Scoring Methodology
+## Scoring Methodology
 Evaluates readiness across **4 Dimensions**: CVI, SGRM, DPE, and ITR. Maps to a 5-level maturity tier.
 
-> 📖 **Read more:** [Scoring Methodology Details](docs/03_Scoring_Methodology.md)
+> **Read more:** [Scoring Methodology Details](docs/03_Scoring_Methodology.md)
 
-## 📁 Documentation Hub
+## Documentation Hub
 For highly detailed, professional documentation, please visit our `/docs` folder:
-- 🏗️ [Architecture Details](docs/01_System_Architecture.md)
-- 💻 [Hardware & Software Requirements](docs/02_System_Requirements.md)
-- 🚀 [Detailed Installation Guide](docs/05_Deployment_Guide.md)
-- 🔒 [Security & Privacy Posture](docs/04_Security_and_Privacy.md)
-- 🗺️ [Development Roadmap](docs/06_Development_Roadmap.md)
+- [Architecture Details](docs/01_System_Architecture.md)
+- [Hardware & Software Requirements](docs/02_System_Requirements.md)
+- [Detailed Installation Guide](docs/05_Deployment_Guide.md)
+- [Security & Privacy Posture](docs/04_Security_and_Privacy.md)
+- [Development Roadmap](docs/06_Development_Roadmap.md)
