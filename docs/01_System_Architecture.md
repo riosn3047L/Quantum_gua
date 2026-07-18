@@ -3,6 +3,58 @@
 ## 1.1 Architectural Overview
 QuantumGuard is architected as a highly modular, decoupled **3-Tier Enterprise application**. It is specifically designed to provide high scalability, maintainability, and robust security for assessing post-quantum cryptography (PQC) readiness. The system evaluates cryptographic posture across application code, network endpoints, and dependencies, while securely leveraging AI for actionable insights.
 
+```mermaid
+flowchart TD
+    %% Define Styles
+    classDef client fill:#f9f9f9,stroke:#333,stroke-width:2px;
+    classDef server fill:#e1f5fe,stroke:#0288d1,stroke-width:2px;
+    classDef data fill:#e8f5e9,stroke:#388e3c,stroke-width:2px;
+    classDef external fill:#fff3e0,stroke:#f57c00,stroke-width:2px,stroke-dasharray: 5 5;
+
+    subgraph Tier1 [Presentation Tier: Client Browser]
+        UI[HTML5 / Tailwind CSS]
+        Logic[Vanilla JS ES6+]
+        ScannerClient[In-Browser Scanner Regex]
+        State[localStorage]
+        UI <--> Logic
+        Logic <--> ScannerClient
+        Logic <--> State
+    end
+
+    subgraph Tier2 [Application Tier: Node.js / Express]
+        API[Express REST API]
+        TLS[TLS Subdomain Scanner]
+        AIProxy[Gemini AI Proxy]
+        CBOM[CBOM Generator]
+        API <--> TLS
+        API <--> AIProxy
+        API <--> CBOM
+    end
+
+    subgraph Tier3 [Data Tier]
+        FileSystem[Server File System]
+        Firebase[(Firebase CDN / DB)]
+    end
+
+    subgraph External [External Services]
+        Gemini[Google Gemini API]
+        Target[Target Domains]
+    end
+
+    %% Connections
+    Logic <==>|HTTP / REST| API
+    AIProxy <==>|Encrypted API Call| Gemini
+    TLS ==>|Network Handshake| Target
+    API <==> FileSystem
+    API <==> Firebase
+
+    %% Apply Styles
+    class Tier1 client;
+    class Tier2 server;
+    class Tier3 data;
+    class External external;
+```
+
 ---
 
 ## 1.2 The 3-Tier Architecture Deep Dive
